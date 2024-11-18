@@ -73,7 +73,7 @@ function Projects() {
       description: "A classic naval combat game reimagined for the web. This interactive Battleships implementation features both single-player and two-player modes, allowing users to either challenge an AI opponent or engage in tactical warfare with friends. Built with pure JavaScript, it delivers an engaging gaming experience with intuitive controls and strategic gameplay.",
       image: "/projects/game-project.png",
       techStack: ["JavaScript", "HTML", "CSS"],
-      liveDemo: "https://your-game-url.com",
+      liveDemo: "https://battleships-ga.netlify.app/",
       github: "https://github.com/Esosa-web/battleships",
       highlights: [
         "Implemented both single-player AI and two-player modes",
@@ -89,7 +89,7 @@ function Projects() {
       description: "A React-powered brewery discovery platform that connects users with breweries worldwide. Leveraging the Open Brewery DB API and Mapbox integration, BrewBuddy offers an interactive experience for exploring and tracking favorite breweries with precise location mapping.",
       image: "/projects/BrewBuddy.png",
       techStack: ["React", "JavaScript", "Mapbox API", "Open Brewery DB API", "CSS"],
-      liveDemo: "https://your-brewbuddy-url.com",
+      liveDemo: "https://brewbuddy-ga.netlify.app/",
       github: "https://github.com/Esosa-web/brewbuddy",
       highlights: [
         "Integrated Open Brewery DB API for comprehensive brewery data",
@@ -106,7 +106,7 @@ function Projects() {
       description: "A TypeScript-powered football simulation game inspired by Inazuma Eleven. This unique simulator allows users to pick from a curated selection of teams and simulate matches with custom game logic. The highlight feature is the tournament mode, where users can organize and simulate entire competitions.",
       image: "/projects/ElevenSim.png",
       techStack: ["TypeScript", "React", "Express", "Node.js", "CSS"],
-      liveDemo: "https://your-elevensim-url.com",
+      liveDemo: "https://my-elevensim-url.com",
       github: "https://github.com/Esosa-web/elevensim",
       highlights: [
         "Developed comprehensive tournament system with bracket progression",
@@ -123,7 +123,7 @@ function Projects() {
       description: "A streamlined task management application that helps users organize their workflow efficiently. Built with Django and React, TaskMaster offers intuitive task creation and category-based organization, making project and personal task management seamless and effective.",
       image: "/projects/Taskmaster.png",
       techStack: ["React", "Python", "Django", "JavaScript", "CSS"],
-      liveDemo: "https://your-taskmaster-url.com",
+      liveDemo: "https://my-taskmaster-url.com",
       github: "https://github.com/Esosa-web/taskmaster",
       highlights: [
         "Implemented category-based task organization system",
