@@ -99,7 +99,7 @@ function Contact() {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [formspreeState, handleFormspreeSubmit] = useForm("mpwzlajp");
+  const [, handleFormspreeSubmit] = useForm("mpwzlajp");
 
   const validateForm = () => {
     const newErrors = {};

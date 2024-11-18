@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { FaGithub, FaExternalLinkAlt, FaReact, FaNode, FaPython, FaHtml5, FaCss3Alt } from 'react-icons/fa';
 import { SiTypescript, SiDjango, SiExpress, SiJavascript, SiMapbox } from 'react-icons/si';
 

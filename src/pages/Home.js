@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { motion, useAnimation } from 'framer-motion';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
+import { motion } from 'framer-motion';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 
 const FloatingGradient = () => (
@@ -22,8 +22,6 @@ const FloatingGradient = () => (
 
 function Home() {
   const containerRef = useRef(null);
-  const [isHovered, setIsHovered] = useState(false);
-  const controls = useAnimation();
 
   // Your existing mouse move effect
   useEffect(() => {
@@ -45,37 +43,41 @@ function Home() {
   }, []);
 
   // Typing animation text
-  const roles = ["Full Stack Developer", "Creative Problem Solver", "Tech Enthusiast"];
+  const roles = useMemo(() => [
+    "Full Stack Developer",
+    "Creative Problem Solver",
+    "Tech Enthusiast"
+  ], []);
   const [currentRole, setCurrentRole] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
   const [text, setText] = useState('');
   const [delta, setDelta] = useState(200);
 
   useEffect(() => {
+    const tick = () => {
+      let fullText = roles[currentRole];
+      let updatedText = isDeleting 
+        ? fullText.substring(0, text.length - 1)
+        : fullText.substring(0, text.length + 1);
+
+      setText(updatedText);
+
+      if (!isDeleting && updatedText === fullText) {
+        setIsDeleting(true);
+        setDelta(100);
+      } else if (isDeleting && updatedText === '') {
+        setIsDeleting(false);
+        setCurrentRole((prev) => (prev + 1) % roles.length);
+        setDelta(200);
+      }
+    };
+
     let ticker = setInterval(() => {
       tick();
     }, delta);
 
     return () => clearInterval(ticker);
-  }, [text, delta, currentRole, isDeleting]);
-
-  const tick = () => {
-    let fullText = roles[currentRole];
-    let updatedText = isDeleting 
-      ? fullText.substring(0, text.length - 1)
-      : fullText.substring(0, text.length + 1);
-
-    setText(updatedText);
-
-    if (!isDeleting && updatedText === fullText) {
-      setIsDeleting(true);
-      setDelta(100);
-    } else if (isDeleting && updatedText === '') {
-      setIsDeleting(false);
-      setCurrentRole((prev) => (prev + 1) % roles.length);
-      setDelta(200);
-    }
-  };
+  }, [text, delta, currentRole, isDeleting, roles]);
 
   return (
     <div ref={containerRef} className="min-h-screen w-full flex items-center justify-center relative overflow-hidden 

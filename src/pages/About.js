@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 import { FaReact, FaNode, FaPython, FaGitAlt, FaDocker, FaAws, FaHtml5, FaCss3Alt, FaCode } from 'react-icons/fa';
 import { SiJavascript, SiTailwindcss, SiMongodb, SiMysql, SiExpress, SiDjango, SiTypescript } from 'react-icons/si';
 import { BiCodeAlt } from 'react-icons/bi';
 import { BsKanban } from 'react-icons/bs';
 import { TbBrandVscode } from 'react-icons/tb';
 import { IoMdPeople } from 'react-icons/io';
-import { useInView } from 'react-intersection-observer';
 
 const SkillCard = ({ skill, index, category }) => {
   return (
@@ -167,15 +167,11 @@ const JourneyCard = ({ title, content, gradient, icon, delay }) => {
 };
 
 const InterestCard = ({ title, content, icon, gradient, delay }) => {
-  const [isHovered, setIsHovered] = useState(false);
-
   return (
     <motion.div
       initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.8, delay }}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
       className="group bg-white/5 backdrop-blur-lg rounded-2xl p-8 
                  hover:bg-white/10 transition-all duration-300 
                  hover:-translate-y-2 hover:shadow-xl hover:shadow-purple-500/10
@@ -186,10 +182,10 @@ const InterestCard = ({ title, content, icon, gradient, delay }) => {
         className={`absolute inset-0 bg-gradient-to-br ${gradient}`}
         initial={{ opacity: 0 }}
         animate={{ 
-          opacity: isHovered ? 0.15 : 0,
-          backgroundPosition: isHovered ? ["0% 0%", "100% 100%"] : "0% 0%"
+          opacity: 0,
+          backgroundPosition: "0% 0%"
         }}
-        transition={{ duration: 3, repeat: isHovered ? Infinity : 0 }}
+        transition={{ duration: 3, repeat: 0 }}
       />
       
       {/* Animated accent lines */}
@@ -197,13 +193,13 @@ const InterestCard = ({ title, content, icon, gradient, delay }) => {
         <motion.div
           className="absolute top-0 right-0 w-32 h-[1px] bg-gradient-to-r from-transparent via-purple-500 to-transparent"
           initial={{ x: "100%" }}
-          animate={{ x: isHovered ? "-100%" : "100%" }}
+          animate={{ x: "100%" }}
           transition={{ duration: 2, repeat: Infinity }}
         />
         <motion.div
           className="absolute bottom-0 left-0 w-32 h-[1px] bg-gradient-to-r from-transparent via-purple-500 to-transparent"
           initial={{ x: "-100%" }}
-          animate={{ x: isHovered ? "100%" : "-100%" }}
+          animate={{ x: "-100%" }}
           transition={{ duration: 2, repeat: Infinity }}
         />
       </div>
@@ -220,13 +216,13 @@ const InterestCard = ({ title, content, icon, gradient, delay }) => {
               y: Math.random() * 100,
               rotate: Math.random() * 360 
             }}
-            animate={isHovered ? { 
+            animate={{ 
               scale: [0.5, 0.8, 0.5],
               x: [null, Math.random() * 200, Math.random() * 100],
               y: [null, Math.random() * 200, Math.random() * 100],
               rotate: 360,
               opacity: [0.1, 0.3, 0.1]
-            } : {}}
+            }}
             transition={{
               duration: 5,
               repeat: Infinity,
@@ -244,10 +240,10 @@ const InterestCard = ({ title, content, icon, gradient, delay }) => {
         <div className="flex items-center gap-3 mb-4">
           <motion.span 
             className="text-3xl relative"
-            animate={isHovered ? {
+            animate={{
               rotate: [0, 10, 0],
               scale: [1, 1.1, 1]
-            } : {}}
+            }}
             transition={{ duration: 2, repeat: Infinity }}
           >
             {icon}
@@ -255,7 +251,7 @@ const InterestCard = ({ title, content, icon, gradient, delay }) => {
             <motion.div
               className="absolute inset-0 bg-current rounded-full blur-md"
               initial={{ opacity: 0 }}
-              animate={{ opacity: isHovered ? 0.2 : 0 }}
+              animate={{ opacity: 0.2 }}
               transition={{ duration: 0.3 }}
             />
           </motion.span>
@@ -274,8 +270,8 @@ const InterestCard = ({ title, content, icon, gradient, delay }) => {
               key={index}
               initial={{ opacity: 0.8 }}
               animate={{ 
-                opacity: isHovered ? 1 : 0.8,
-                x: isHovered ? 5 : 0
+                opacity: 1,
+                x: 0
               }}
               transition={{ duration: 0.3 }}
               className="text-gray-300 leading-relaxed group-hover:text-white"
@@ -289,7 +285,31 @@ const InterestCard = ({ title, content, icon, gradient, delay }) => {
   );
 };
 
-// Add this new component for section transitions
+const AnimatedSection = ({ children, delay = 0 }) => {
+  const controls = useAnimation();
+  const [ref, inView] = useInView({
+    triggerOnce: true,
+    threshold: 0.1
+  });
+
+  useEffect(() => {
+    if (inView) {
+      controls.start({ y: 0, opacity: 1 });
+    }
+  }, [controls, inView]);
+
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ y: 50, opacity: 0 }}
+      animate={controls}
+      transition={{ duration: 0.5, delay }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
 const SectionDivider = () => {
   return (
     <motion.div 
@@ -298,7 +318,6 @@ const SectionDivider = () => {
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
     >
-      {/* Central line */}
       <motion.div
         className="absolute left-1/2 top-1/2 -translate-x-1/2 w-px h-full
                    bg-gradient-to-b from-transparent via-purple-500/50 to-transparent"
@@ -307,8 +326,6 @@ const SectionDivider = () => {
         viewport={{ once: true }}
         transition={{ duration: 0.8 }}
       />
-      
-      {/* Animated dots */}
       <motion.div
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
                    w-3 h-3 rounded-full bg-purple-500"
@@ -317,69 +334,8 @@ const SectionDivider = () => {
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
       >
-        {/* Ripple effect */}
         <span className="absolute inset-0 rounded-full bg-purple-500/50 animate-ping" />
       </motion.div>
-      
-      {/* Decorative gradient lines */}
-      <div className="absolute left-1/2 top-1/2 -translate-y-1/2 w-48 h-px">
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-r from-purple-500/50 to-transparent"
-          initial={{ x: 48, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        />
-        <motion.div
-          className="absolute inset-0 bg-gradient-to-l from-purple-500/50 to-transparent"
-          initial={{ x: -48, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        />
-      </div>
-    </motion.div>
-  );
-};
-
-// Add this component for section animations
-const AnimatedSection = ({ children, delay = 0 }) => {
-  const controls = useAnimation();
-  const [ref, inView] = useInView({
-    threshold: 0.2,
-    triggerOnce: false
-  });
-
-  useEffect(() => {
-    if (inView) {
-      controls.start("visible");
-    }
-  }, [controls, inView]);
-
-  return (
-    <motion.div
-      ref={ref}
-      initial="hidden"
-      animate={controls}
-      variants={{
-        hidden: { 
-          y: 50, 
-          opacity: 0,
-          scale: 0.95
-        },
-        visible: {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          transition: {
-            duration: 0.8,
-            delay,
-            ease: "easeOut"
-          }
-        }
-      }}
-    >
-      {children}
     </motion.div>
   );
 };
@@ -436,11 +392,7 @@ function About() {
     }
   ];
 
-  const fadeInUp = {
-    initial: { y: 30, opacity: 0 },
-    animate: { y: 0, opacity: 1 },
-    transition: { duration: 0.5 }
-  };
+  
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white pt-20 px-4">
@@ -472,22 +424,22 @@ function About() {
           <div className="grid md:grid-cols-2 gap-8 mb-16">
             <JourneyCard
               title="My Journey"
-              content={`Hey there! 👋 Let me tell you how I fell head over heels for coding. It all started during my A-Levels when I first encountered Computer Science - and wow, did it click! But the real magic happened when I stumbled upon this 6-hour Python tutorial on YouTube (yes, I watched the whole thing in one sitting... no regrets!).
-
-              That tutorial was my "aha!" moment. You know that feeling when something just makes perfect sense? That's what programming did for me. Since then, I've been on this incredible journey of turning coffee into code, debugging at 3 AM with a smile (okay, sometimes more of a determined grimace), and getting way too excited about clean code architecture.`}
-              icon="💻"
-              gradient="from-blue-500/20 via-purple-500/20 to-transparent"
-              delay={0}
+              content="As a passionate Full Stack Developer, I blend creativity with technical expertise 
+                      to build seamless digital experiences. My journey in tech began with [your background], 
+                      and I've since developed a deep love for creating innovative solutions that make a difference."
+              gradient="from-purple-500/20 via-pink-500/20 to-transparent"
+              icon={<FaCode className="text-purple-400" />}
+              delay={0.2}
             />
             
             <JourneyCard
               title="What Drives Me"
-              content={`Here's the thing - I'm absolutely fascinated by how code can transform ideas into reality. It's like having a superpower! I love tackling complex problems and breaking them down into smaller, manageable pieces (kind of like how I approach my massive to-watch list on Netflix).
-
-              But what really gets me going? Creating solutions that make people's lives easier. Whether it's crafting intuitive user interfaces or optimizing backend processes, I'm all about that "wow, this makes so much sense" reaction. Plus, the tech world moves so fast that there's always something new to learn - and if you know me, you know I'm always up for a good challenge!`}
-              icon="🚀"
-              gradient="from-purple-500/20 via-pink-500/20 to-transparent"
-              delay={0.2}
+              content="I'm driven by the endless possibilities in technology and its power to solve real-world problems. 
+                      I believe in writing clean, maintainable code and creating intuitive user experiences that delight 
+                      and inspire."
+              gradient="from-blue-500/20 via-purple-500/20 to-transparent"
+              icon={<BiCodeAlt className="text-blue-400" />}
+              delay={0.4}
             />
           </div>
         </AnimatedSection>
