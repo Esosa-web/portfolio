@@ -73,7 +73,7 @@ function Projects() {
       description: "A classic naval combat game reimagined for the web. This interactive Battleships implementation features both single-player and two-player modes, allowing users to either challenge an AI opponent or engage in tactical warfare with friends. Built with pure JavaScript, it delivers an engaging gaming experience with intuitive controls and strategic gameplay.",
       image: "/projects/game-project.png",
       techStack: ["JavaScript", "HTML", "CSS"],
-      liveDemo: "https://battleships-ga.netlify.app/",
+      liveDemo: "https://esosa-web.github.io/battleships-project/",
       github: "https://github.com/Esosa-web/battleships",
       highlights: [
         "Implemented both single-player AI and two-player modes",
@@ -89,7 +89,7 @@ function Projects() {
       description: "A React-powered brewery discovery platform that connects users with breweries worldwide. Leveraging the Open Brewery DB API and Mapbox integration, BrewBuddy offers an interactive experience for exploring and tracking favorite breweries with precise location mapping.",
       image: "/projects/BrewBuddy.png",
       techStack: ["React", "JavaScript", "Mapbox API", "Open Brewery DB API", "CSS"],
-      liveDemo: "https://brewbuddy-ga.netlify.app/",
+      liveDemo: "https://brewbudddy.netlify.app/",
       github: "https://github.com/Esosa-web/brewbuddy",
       highlights: [
         "Integrated Open Brewery DB API for comprehensive brewery data",
