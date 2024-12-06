@@ -189,9 +189,9 @@ function Home() {
               whileHover={{ scale: 1.1 }}  // Increased hover scale for better interaction
             >
               <img
-                src="/images/profile.png"
+                src="/images/profile-pic.jpg"
                 alt="Esosa"
-                className="w-full h-full rounded-full object-cover object-[95%_center]"
+                className="w-full h-full rounded-full object-cover object-[90%_center]"
               />
 
               {/* Shine effect */}
