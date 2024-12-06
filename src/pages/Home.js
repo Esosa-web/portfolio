@@ -1,6 +1,36 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
+
+const generateColors = (index) => {
+  const colorSchemes = [
+    // Cyberpunk Purple/Blue
+    {
+      text: "text-white drop-shadow-[0_0_10px_rgba(147,51,234,0.3)]",
+      particle: "bg-gradient-to-r from-purple-400 to-blue-500",
+      glow: "bg-purple-500/30",
+      ring: "border-purple-500/20",
+      orb: "bg-gradient-to-r from-purple-400 to-blue-500"
+    },
+    // Tech Green/Cyan
+    {
+      text: "text-white drop-shadow-[0_0_10px_rgba(16,185,129,0.3)]",
+      particle: "bg-gradient-to-r from-emerald-400 to-cyan-500",
+      glow: "bg-emerald-500/30",
+      ring: "border-emerald-500/20",
+      orb: "bg-gradient-to-r from-emerald-400 to-cyan-500"
+    },
+    // Future Pink/Purple
+    {
+      text: "text-white drop-shadow-[0_0_10px_rgba(236,72,153,0.3)]",
+      particle: "bg-gradient-to-r from-pink-400 to-purple-500",
+      glow: "bg-pink-500/30",
+      ring: "border-pink-500/20",
+      orb: "bg-gradient-to-r from-pink-400 to-purple-500"
+    }
+  ];
+  return colorSchemes[index % colorSchemes.length];
+};
 
 const FloatingGradient = () => (
   <motion.div
@@ -19,6 +49,46 @@ const FloatingGradient = () => (
     }}
   />
 );
+
+// Add this component outside the Home function
+const BackgroundParticles = React.memo(() => (
+  <div className="absolute inset-0 opacity-30">
+    {[...Array(50)].map((_, i) => {
+      const startX = Math.random() * 100;
+      const startY = Math.random() * 100;
+      const size = Math.random() * 50 + 10;
+      const hue = Math.random() * 360;
+      
+      return (
+        <motion.div
+          key={i}
+          className="absolute rounded-full mix-blend-screen"
+          style={{
+            width: size,
+            height: size,
+            backgroundColor: `hsl(${hue}, 70%, 50%)`,
+            filter: 'blur(3px)',
+            transform: `translateZ(${Math.random() * -10}px)`,
+          }}
+          initial={{ 
+            x: `${startX}vw`, 
+            y: `${startY}vh` 
+          }}
+          animate={{ 
+            x: [`${startX}vw`, `${(startX + 50) % 100}vw`, `${startX}vw`],
+            y: [`${startY}vh`, `${(startY + 50) % 100}vh`, `${startY}vh`],
+          }}
+          transition={{
+            duration: 50,
+            repeat: Infinity,
+            ease: "linear",
+            times: [0, 0.5, 1]
+          }}
+        />
+      );
+    })}
+  </div>
+));
 
 function Home() {
   const containerRef = useRef(null);
@@ -49,75 +119,129 @@ function Home() {
     "Tech Enthusiast"
   ], []);
   const [currentRole, setCurrentRole] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [text, setText] = useState('');
-  const [delta, setDelta] = useState(200);
 
   useEffect(() => {
-    const tick = () => {
-      let fullText = roles[currentRole];
-      let updatedText = isDeleting 
-        ? fullText.substring(0, text.length - 1)
-        : fullText.substring(0, text.length + 1);
+    const timer = setInterval(() => {
+      setCurrentRole((prev) => (prev + 1) % roles.length);
+    }, 3000);
 
-      setText(updatedText);
-
-      if (!isDeleting && updatedText === fullText) {
-        setIsDeleting(true);
-        setDelta(100);
-      } else if (isDeleting && updatedText === '') {
-        setIsDeleting(false);
-        setCurrentRole((prev) => (prev + 1) % roles.length);
-        setDelta(200);
-      }
-    };
-
-    let ticker = setInterval(() => {
-      tick();
-    }, delta);
-
-    return () => clearInterval(ticker);
-  }, [text, delta, currentRole, isDeleting, roles]);
+    return () => clearInterval(timer);
+  }, [roles.length]);
 
   return (
     <div ref={containerRef} className="min-h-screen w-full flex items-center justify-center relative overflow-hidden 
                                      bg-gradient-to-br from-gray-900 to-black">
       {/* Enhanced animated background with more interactive particles */}
-      <div className="absolute inset-0 opacity-30">
-        {[...Array(50)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute rounded-full mix-blend-screen"
-            initial={{
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight,
-            }}
-            animate={{
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight,
-              scale: [1, 1.2, 1],
-              opacity: [0.3, 0.6, 0.3],
-            }}
-            transition={{
-              duration: Math.random() * 10 + 10,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-            style={{
-              width: `${Math.random() * 50 + 10}px`,
-              height: `${Math.random() * 50 + 10}px`,
-              backgroundColor: `hsl(${Math.random() * 360}, 70%, 50%)`,
-              filter: 'blur(3px)',
-              transform: `translateZ(${Math.random() * -10}px)`,
-            }}
-          />
-        ))}
-      </div>
+      <BackgroundParticles />
 
       <FloatingGradient />
 
       {/* Main content with enhanced animations */}
       <div className="relative z-10 text-white w-full max-w-4xl mx-auto px-6">
+        <motion.div
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ 
+            type: "spring",
+            stiffness: 260,
+            damping: 20,
+            delay: 0.1
+          }}
+          className="mb-8 relative group"
+        >
+          {/* Container for the image and effects */}
+          <div className="relative w-36 h-36 mx-auto">
+            {/* Rotating gradient border */}
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 
+                         rounded-full -z-10"
+              animate={{
+                rotate: 360,
+                scale: [1.05, 1.15, 1.05]
+              }}
+              transition={{
+                rotate: {
+                  duration: 10,
+                  repeat: Infinity,
+                  ease: "linear"
+                },
+                scale: {
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }
+              }}
+              style={{ padding: "3px" }}
+            />
+
+            {/* Image container - synchronized with outer pulse */}
+            <motion.div
+              className="w-full h-full rounded-full overflow-hidden relative bg-gray-900
+                         border-2 border-white/10 p-1"
+              animate={{ 
+                scale: [1, 1.05, 1]  // Subtle scale to match outer pulse
+              }}
+              transition={{ 
+                duration: 3,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+              whileHover={{ scale: 1.1 }}  // Increased hover scale for better interaction
+            >
+              <img
+                src="/images/profile.png"
+                alt="Esosa"
+                className="w-full h-full rounded-full object-cover object-[95%_center]"
+              />
+
+              {/* Shine effect */}
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/30 to-white/0"
+                animate={{
+                  opacity: [0, 0.3, 0],
+                  rotate: [0, 360],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              />
+            </motion.div>
+
+            {/* Particle effects */}
+            {[...Array(3)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-2 h-2 bg-purple-400 rounded-full"
+                initial={{ 
+                  x: 0, 
+                  y: 0, 
+                  scale: 0,
+                  opacity: 0 
+                }}
+                animate={{
+                  x: [0, (Math.random() - 0.5) * 100],
+                  y: [0, (Math.random() - 0.5) * 100],
+                  scale: [0, 1, 0],
+                  opacity: [0, 1, 0]
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  delay: i * 0.2,
+                  ease: "easeOut"
+                }}
+                style={{
+                  left: '50%',
+                  top: '50%',
+                  transform: 'translate(-50%, -50%)'
+                }}
+              />
+            ))}
+          </div>
+        </motion.div>
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -190,29 +314,158 @@ function Home() {
           </motion.h1>
           
           {/* Typing animation for roles */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="text-xl text-gray-300 mb-8 leading-relaxed h-8"
-          >
-            <motion.span
-              key={text}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="inline-block"
-            >
-              {text}
-              <motion.span
-                animate={{ opacity: [1, 0] }}
-                transition={{ duration: 0.5, repeat: Infinity }}
-                className="ml-1"
+          <div className="text-xl text-gray-300 mb-8 leading-relaxed h-8 relative">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentRole}
+                className="absolute w-full flex justify-center"
+                initial={{ 
+                  y: 40,
+                  opacity: 0,
+                  scale: 0.8,
+                  filter: "blur(10px)"
+                }}
+                animate={{ 
+                  y: 0,
+                  opacity: 1,
+                  scale: 1,
+                  filter: "blur(0px)"
+                }}
+                exit={{ 
+                  y: -40,
+                  opacity: 0,
+                  scale: 1.2,
+                  filter: "blur(10px)"
+                }}
+                transition={{
+                  duration: 0.6,
+                  ease: [0.23, 1, 0.32, 1]
+                }}
               >
-                |
-              </motion.span>
-            </motion.span>
-          </motion.div>
+                <motion.span className={`relative ${generateColors(currentRole).text}`}>
+                  {roles[currentRole]}
+                  
+                  {/* Energy field effect with dynamic colors */}
+                  <motion.div
+                    className={`absolute -inset-x-8 -inset-y-4 ${generateColors(currentRole).glow} rounded-lg -z-10`}
+                    initial={{ scale: 0, opacity: 0 }}
+                    animate={{ 
+                      scale: [1, 1.1, 1],
+                      opacity: [0, 0.3, 0],
+                    }}
+                    transition={{ 
+                      duration: 1.5,
+                      ease: "easeOut",
+                    }}
+                  />
+                  
+                  {/* Particle burst effect with dynamic colors */}
+                  {[...Array(8)].map((_, i) => (
+                    <motion.span
+                      key={i}
+                      className={`absolute w-1 h-1 ${generateColors(currentRole).particle} rounded-full`}
+                      initial={{ 
+                        opacity: 0,
+                        scale: 0,
+                        x: 0,
+                        y: 0
+                      }}
+                      animate={{ 
+                        opacity: [0, 1, 0],
+                        scale: [0, 1, 0],
+                        x: [0, Math.cos(i * (Math.PI / 4)) * 50],
+                        y: [0, Math.sin(i * (Math.PI / 4)) * 50]
+                      }}
+                      transition={{
+                        duration: 0.8,
+                        ease: "easeOut"
+                      }}
+                    />
+                  ))}
+                  
+                  {/* Energy lines with dynamic colors */}
+                  {[...Array(4)].map((_, i) => (
+                    <motion.span
+                      key={`line-${i}`}
+                      className={`absolute inset-0 border ${generateColors(currentRole).ring} rounded-lg`}
+                      initial={{ 
+                        opacity: 0,
+                        scale: 0.8,
+                      }}
+                      animate={{ 
+                        opacity: [0, 0.5, 0],
+                        scale: [0.8, 1.2, 1.8],
+                      }}
+                      transition={{
+                        duration: 1,
+                        delay: i * 0.1,
+                        ease: "easeOut",
+                      }}
+                    />
+                  ))}
+                  
+                  {/* Glowing orbs with dynamic colors */}
+                  {[...Array(3)].map((_, i) => (
+                    <motion.div
+                      key={`orb-${i}`}
+                      className={`absolute w-2 h-2 ${generateColors(currentRole).orb} rounded-full blur-sm`}
+                      initial={{ 
+                        opacity: 0,
+                        x: 0,
+                        y: 0,
+                      }}
+                      animate={{ 
+                        opacity: [0, 0.5, 0],
+                        x: [0, (i - 1) * 40],
+                        y: [0, (Math.random() - 0.5) * 30],
+                        scale: [1, 1.5, 0.8],
+                      }}
+                      transition={{
+                        duration: 1.2,
+                        delay: i * 0.15,
+                        ease: "easeOut",
+                      }}
+                    />
+                  ))}
+                </motion.span>
+              </motion.div>
+            </AnimatePresence>
+            
+            {/* Enhanced cursor with dynamic colors */}
+            <motion.div
+              className="absolute -right-4 top-1/2 -translate-y-1/2"
+              animate={{
+                opacity: [1, 0.5, 1],
+              }}
+              transition={{
+                duration: 1,
+                repeat: Infinity,
+                repeatType: "reverse"
+              }}
+            >
+              <motion.span
+                className={`block w-[2px] h-5 ${generateColors(currentRole).particle}`}
+                animate={{
+                  scaleY: [1, 1.5, 1],
+                  opacity: [1, 0.7, 1],
+                }}
+                transition={{
+                  duration: 0.8,
+                  repeat: Infinity,
+                }}
+              />
+              <motion.span
+                className={`absolute top-0 left-0 w-[2px] h-5 ${generateColors(currentRole).particle} blur-sm`}
+                animate={{
+                  opacity: [0.3, 0.7, 0.3],
+                }}
+                transition={{
+                  duration: 0.8,
+                  repeat: Infinity,
+                }}
+              />
+            </motion.div>
+          </div>
 
           {/* Enhanced description */}
           <motion.p 
@@ -238,9 +491,9 @@ function Home() {
             transition={{ delay: 0.7 }}
           >
             {[
-              { Icon: FaGithub, url: "https://github.com/Esosa-web", color: "hover:text-purple-400" },
-              { Icon: FaLinkedin, url: "https://www.linkedin.com/in/esosa-emwionkpa-0ab5b3326/", color: "hover:text-blue-400" }
-            ].map(({ Icon, url, color }, index) => (
+              { Icon: FaGithub, url: "https://github.com/Esosa-web", gradient: "from-purple-500 to-pink-500" },
+              { Icon: FaLinkedin, url: "https://www.linkedin.com/in/esosa-emwionkpa-0ab5b3326/", gradient: "from-blue-500 to-purple-500" }
+            ].map(({ Icon, url, gradient }, index) => (
               <motion.a
                 key={url}
                 href={url}
@@ -250,10 +503,13 @@ function Home() {
                 whileHover={{ scale: 1.2 }}
                 whileTap={{ scale: 0.9 }}
               >
-                <Icon className={`text-white ${color} transition-all duration-300`} />
+                <Icon className={`relative z-10 transition-colors duration-300 
+                                 group-hover:bg-gradient-to-r group-hover:${gradient} 
+                                 group-hover:bg-clip-text group-hover:text-transparent`} />
                 <motion.div
-                  className="absolute -inset-2 rounded-full opacity-0 group-hover:opacity-20 
-                             blur-md transition-all duration-300 -z-10 bg-current"
+                  className={`absolute -inset-2 bg-gradient-to-r ${gradient} 
+                              rounded-full opacity-0 group-hover:opacity-20 blur-md 
+                              transition-all duration-300 -z-10`}
                 />
               </motion.a>
             ))}
