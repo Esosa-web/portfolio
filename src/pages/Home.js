@@ -238,9 +238,9 @@ function Home() {
             transition={{ delay: 0.7 }}
           >
             {[
-              { Icon: FaGithub, url: "https://github.com/Esosa-web", gradient: "from-purple-500 to-pink-500" },
-              { Icon: FaLinkedin, url: "https://www.linkedin.com/in/esosa-emwionkpa-0ab5b3326/", gradient: "from-blue-500 to-purple-500" }
-            ].map(({ Icon, url, gradient }, index) => (
+              { Icon: FaGithub, url: "https://github.com/Esosa-web", color: "hover:text-purple-400" },
+              { Icon: FaLinkedin, url: "https://www.linkedin.com/in/esosa-emwionkpa-0ab5b3326/", color: "hover:text-blue-400" }
+            ].map(({ Icon, url, color }, index) => (
               <motion.a
                 key={url}
                 href={url}
@@ -250,13 +250,10 @@ function Home() {
                 whileHover={{ scale: 1.2 }}
                 whileTap={{ scale: 0.9 }}
               >
-                <Icon className={`relative z-10 transition-colors duration-300 
-                                 group-hover:bg-gradient-to-r group-hover:${gradient} 
-                                 group-hover:bg-clip-text group-hover:text-transparent`} />
+                <Icon className={`text-white ${color} transition-all duration-300`} />
                 <motion.div
-                  className={`absolute -inset-2 bg-gradient-to-r ${gradient} 
-                              rounded-full opacity-0 group-hover:opacity-20 blur-md 
-                              transition-all duration-300 -z-10`}
+                  className="absolute -inset-2 rounded-full opacity-0 group-hover:opacity-20 
+                             blur-md transition-all duration-300 -z-10 bg-current"
                 />
               </motion.a>
             ))}

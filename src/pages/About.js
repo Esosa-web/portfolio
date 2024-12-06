@@ -424,9 +424,7 @@ function About() {
           <div className="grid md:grid-cols-2 gap-8 mb-16">
             <JourneyCard
               title="My Journey"
-              content="As a passionate Full Stack Developer, I blend creativity with technical expertise 
-                      to build seamless digital experiences. My journey in tech began with [your background], 
-                      and I've since developed a deep love for creating innovative solutions that make a difference."
+              content="My path into coding started with a simple YouTube tutorial - a six-hour Python crash course that completely hooked me! This spark led me to an internship at Arup, where I got to blend Python with structural and mechanical engineering. After diving deeper into Computer Science during my A-Levels, something just clicked - I knew software development was my calling. It's amazing how a single tutorial can set you on a path that feels so right!"
               gradient="from-purple-500/20 via-pink-500/20 to-transparent"
               icon={<FaCode className="text-purple-400" />}
               delay={0.2}
@@ -434,9 +432,7 @@ function About() {
             
             <JourneyCard
               title="What Drives Me"
-              content="I'm driven by the endless possibilities in technology and its power to solve real-world problems. 
-                      I believe in writing clean, maintainable code and creating intuitive user experiences that delight 
-                      and inspire."
+              content="What gets me excited about coding is how it combines problem-solving with creativity. Whether I'm building a responsive website or debugging a tricky issue, I love that moment when everything falls into place. My engineering background taught me to approach problems systematically, but it's the creative freedom of coding that really makes me lose track of time. I'm constantly amazed by how a few lines of code can turn an idea into something real and impactful!"
               gradient="from-blue-500/20 via-purple-500/20 to-transparent"
               icon={<BiCodeAlt className="text-blue-400" />}
               delay={0.4}
