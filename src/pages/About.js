@@ -407,7 +407,7 @@ function About() {
         >
           <motion.h1 
             className="text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 
-                       bg-clip-text text-transparent inline-block"
+                       bg-clip-text text-transparent inline-block hover:scale-105 transition-transform duration-300"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
           >
