@@ -74,7 +74,7 @@ function Projects() {
       image: "/projects/game-project.png",
       techStack: ["JavaScript", "HTML", "CSS"],
       liveDemo: "https://esosa-web.github.io/battleships-project/",
-      github: "https://github.com/Esosa-web/battleships",
+      github: "https://github.com/Esosa-web/battleships-project",
       highlights: [
         "Implemented both single-player AI and two-player modes",
         "Built with vanilla JavaScript for optimal performance",
@@ -90,7 +90,7 @@ function Projects() {
       image: "/projects/BrewBuddy.png",
       techStack: ["React", "JavaScript", "Mapbox API", "Open Brewery DB API", "CSS"],
       liveDemo: "https://brewbudddy.netlify.app/",
-      github: "https://github.com/Esosa-web/brewbuddy",
+      github: "https://github.com/Esosa-web/BrewBuddy",
       highlights: [
         "Integrated Open Brewery DB API for comprehensive brewery data",
         "Implemented interactive maps using Mapbox for location visualization",
@@ -106,8 +106,8 @@ function Projects() {
       description: "A TypeScript-powered football simulation game inspired by Inazuma Eleven. This unique simulator allows users to pick from a curated selection of teams and simulate matches with custom game logic. The highlight feature is the tournament mode, where users can organize and simulate entire competitions.",
       image: "/projects/ElevenSim.png",
       techStack: ["TypeScript", "React", "Express", "Node.js", "CSS"],
-      liveDemo: "https://my-elevensim-url.com",
-      github: "https://github.com/Esosa-web/elevensim",
+      liveDemo: "https://11sim.netlify.app",
+      github: "https://github.com/Esosa-web/Eleven-Sim-Frontend",
       highlights: [
         "Developed comprehensive tournament system with bracket progression",
         "Implemented custom game logic for realistic match simulations",
@@ -123,8 +123,8 @@ function Projects() {
       description: "A streamlined task management application that helps users organize their workflow efficiently. Built with Django and React, TaskMaster offers intuitive task creation and category-based organization, making project and personal task management seamless and effective.",
       image: "/projects/Taskmaster.png",
       techStack: ["React", "Python", "Django", "JavaScript", "CSS"],
-      liveDemo: "https://my-taskmaster-url.com",
-      github: "https://github.com/Esosa-web/taskmaster",
+      liveDemo: "https://esosa-task-manager.netlify.app",
+      github: "https://github.com/Esosa-web/task-manager-frontend",
       highlights: [
         "Implemented category-based task organization system",
         "Built RESTful API with Django for robust backend functionality",

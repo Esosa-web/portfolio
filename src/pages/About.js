@@ -7,6 +7,7 @@ import { BiCodeAlt } from 'react-icons/bi';
 import { BsKanban } from 'react-icons/bs';
 import { TbBrandVscode } from 'react-icons/tb';
 import { IoMdPeople } from 'react-icons/io';
+import { useNavigate } from 'react-router-dom';
 
 const SkillCard = ({ skill, index, category }) => {
   return (
@@ -341,6 +342,7 @@ const SectionDivider = () => {
 };
 
 function About() {
+  const navigate = useNavigate();
   const skills = [
     { 
       category: "Frontend",
@@ -635,6 +637,7 @@ function About() {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={() => navigate('/contact')}
             className="px-8 py-3 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 
                      text-white font-semibold hover:shadow-lg hover:shadow-purple-500/30 
                      transition-all duration-300"
