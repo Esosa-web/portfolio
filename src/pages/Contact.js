@@ -143,7 +143,7 @@ function Contact() {
 
   const socialLinks = [
     { icon: FaGithub, url: 'https://github.com/Esosa-web', color: 'hover:text-purple-500' },
-    { icon: FaLinkedin, url: 'https://www.linkedin.com/in/esosa-emwionkpa-0ab5b3326/', color: 'hover:text-blue-500' },
+    { icon: FaLinkedin, url: 'https://www.linkedin.com/in/esosaemwionkpa/', color: 'hover:text-blue-500' },
     { icon: FaEnvelope, url: 'mailto:esosaisnow@gmail.com', color: 'hover:text-pink-500' }
   ];
 
@@ -181,6 +181,46 @@ function Contact() {
           >
             Have a question or want to work together? I'd love to hear from you.
           </motion.p>
+        </motion.div>
+
+        <motion.div 
+          className="mb-16 relative"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="relative w-48 h-48 mx-auto">
+            {/* Outer container with dark border path */}
+            <div className="absolute -inset-2 rounded-2xl bg-black/80" />
+            
+            {/* Inner container with hover effect */}
+            <motion.div
+              className="relative w-full h-full rounded-xl overflow-hidden"
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.3 }}
+            >
+              {/* Image */}
+              <img
+                src="/images/profile.png"
+                alt="Esosa"
+                className="w-full h-full object-cover object-[95%_center]"
+              />
+
+              {/* Shine effect */}
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/30 to-white/0"
+                animate={{
+                  opacity: [0, 0.3, 0],
+                  rotate: [0, 360],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              />
+            </motion.div>
+          </div>
         </motion.div>
 
         <div className="grid md:grid-cols-[2fr,1fr] gap-12">
