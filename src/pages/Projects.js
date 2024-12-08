@@ -164,8 +164,8 @@ function Projects() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white pt-20 px-4 
-                    overflow-hidden relative">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white pt-20 px-4 pb-20
+                relative">
       <ParticlesBackground />
       <FloatingGradient />
       <div className="max-w-6xl mx-auto">
