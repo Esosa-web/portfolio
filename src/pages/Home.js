@@ -50,45 +50,59 @@ const FloatingGradient = () => (
   />
 );
 
-// Add this component outside the Home function
-const BackgroundParticles = React.memo(() => (
-  <div className="absolute inset-0 opacity-30">
-    {[...Array(50)].map((_, i) => {
-      const startX = Math.random() * 100;
-      const startY = Math.random() * 100;
-      const size = Math.random() * 50 + 10;
-      const hue = Math.random() * 360;
-      
-      return (
-        <motion.div
-          key={i}
-          className="absolute rounded-full mix-blend-screen"
-          style={{
-            width: size,
-            height: size,
-            backgroundColor: `hsl(${hue}, 70%, 50%)`,
-            filter: 'blur(3px)',
-            transform: `translateZ(${Math.random() * -10}px)`,
-          }}
-          initial={{ 
-            x: `${startX}vw`, 
-            y: `${startY}vh` 
-          }}
-          animate={{ 
-            x: [`${startX}vw`, `${(startX + 50) % 100}vw`, `${startX}vw`],
-            y: [`${startY}vh`, `${(startY + 50) % 100}vh`, `${startY}vh`],
-          }}
-          transition={{
-            duration: 50,
-            repeat: Infinity,
-            ease: "linear",
-            times: [0, 0.5, 1]
-          }}
-        />
-      );
-    })}
-  </div>
+// First, add this helper function at the top with other functions
+const generateParticleProperties = () => ({
+  initialX: Math.random() * window.innerWidth,
+  initialY: Math.random() * window.innerHeight,
+  targetX: Math.random() * window.innerWidth,
+  targetY: Math.random() * window.innerHeight,
+  size: Math.random() * 30 + 5,
+  hue: Math.random() * 360,
+  duration: Math.random() * 10 + 10
+});
+
+// Then replace the ParticlesBackground component with:
+const Particle = React.memo(({ properties }) => (
+  <motion.div
+    className="absolute rounded-full mix-blend-screen"
+    initial={{
+      x: properties.initialX,
+      y: properties.initialY,
+    }}
+    animate={{
+      x: properties.targetX,
+      y: properties.targetY,
+      scale: [1, 1.2, 1],
+      opacity: [0.3, 0.6, 0.3],
+    }}
+    transition={{
+      duration: properties.duration,
+      repeat: Infinity,
+      ease: "linear",
+    }}
+    style={{
+      width: `${properties.size}px`,
+      height: `${properties.size}px`,
+      backgroundColor: `hsl(${properties.hue}, 70%, 50%)`,
+      filter: 'blur(3px)',
+    }}
+  />
 ));
+
+const ParticlesBackground = React.memo(() => {
+  const particles = useMemo(() => 
+    [...Array(30)].map(() => generateParticleProperties()),
+    [] // Empty dependency array means this only runs once on mount
+  );
+
+  return (
+    <div className="absolute inset-0 opacity-30">
+      {particles.map((properties, i) => (
+        <Particle key={i} properties={properties} />
+      ))}
+    </div>
+  );
+});
 
 function Home() {
   const containerRef = useRef(null);
@@ -132,7 +146,7 @@ function Home() {
     <div ref={containerRef} className="min-h-screen w-full flex items-center justify-center relative overflow-hidden 
                                      bg-gradient-to-br from-gray-900 to-black">
       {/* Enhanced animated background with more interactive particles */}
-      <BackgroundParticles />
+      <ParticlesBackground />
 
       <FloatingGradient />
 
