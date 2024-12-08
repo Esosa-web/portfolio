@@ -21,38 +21,6 @@ const FloatingGradient = () => (
   />
 );
 
-const ParticlesBackground = () => (
-  <div className="absolute inset-0 opacity-30">
-    {[...Array(30)].map((_, i) => (
-      <motion.div
-        key={i}
-        className="absolute rounded-full mix-blend-screen"
-        initial={{
-          x: Math.random() * window.innerWidth,
-          y: Math.random() * window.innerHeight,
-        }}
-        animate={{
-          x: Math.random() * window.innerWidth,
-          y: Math.random() * window.innerHeight,
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.6, 0.3],
-        }}
-        transition={{
-          duration: Math.random() * 10 + 10,
-          repeat: Infinity,
-          ease: "linear",
-        }}
-        style={{
-          width: `${Math.random() * 30 + 5}px`,
-          height: `${Math.random() * 30 + 5}px`,
-          backgroundColor: `hsl(${Math.random() * 360}, 70%, 50%)`,
-          filter: 'blur(3px)',
-        }}
-      />
-    ))}
-  </div>
-);
-
 function Projects() {
   const techIcons = {
     React: <FaReact className="text-[#61DAFB]" />,
@@ -164,11 +132,10 @@ function Projects() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white pt-20 px-4 pb-20
-                relative">
-      <ParticlesBackground />
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white pt-20 px-4 pb-20 
+                    overflow-hidden relative will-change-transform backface-visibility-hidden">
       <FloatingGradient />
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto relative z-10 transform-gpu">
         {/* Hero Section */}
         <motion.div 
           initial={{ opacity: 0 }}
